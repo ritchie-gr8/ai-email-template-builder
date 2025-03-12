@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import SignInButton from "./SignInButton";
 
 const Hero = () => {
   return (
@@ -19,9 +20,7 @@ const Hero = () => {
 
       <div className="gap-5 mt-6 flex">
         <Button variant="outline">Try now</Button>
-        <Button className="hover:bg-primary-foreground hover:text-primary">
-          Get Started
-        </Button>
+        <SignInButton btnStyle="hover:bg-primary-foreground hover:text-primary" />
       </div>
 
       <Image
