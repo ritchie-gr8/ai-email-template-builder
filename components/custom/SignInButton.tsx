@@ -9,9 +9,10 @@ import { api } from "@/convex/_generated/api";
 
 type Props = {
   btnStyle?: string;
+  children: React.ReactNode;
 };
 
-const SignInButton = ({ btnStyle }: Props) => {
+const SignInButton = ({ btnStyle, children }: Props) => {
   const createUser = useMutation(api.users.createUser);
 
   const googleLogin = useGoogleLogin({
@@ -48,7 +49,7 @@ const SignInButton = ({ btnStyle }: Props) => {
   return (
     <div>
       <Button className={btnStyle} onClick={handleClick}>
-        Get Started
+        {children ?? 'Get Started'}
       </Button>
     </div>
   );

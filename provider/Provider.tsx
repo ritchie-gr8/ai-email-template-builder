@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { UserDetailContext } from "../context/UserDetailContext";
+import { useRouter } from "next/navigation";
 
 type Props = {
   children: React.ReactNode;
@@ -12,12 +13,13 @@ type Props = {
 const Provider = ({ children }: Props) => {
   const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
   const [userDetail, setUserDetail] = useState();
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== undefined) {
       const userDetail = localStorage.getItem("userDetail");
       if (!userDetail) {
-        // redirect to home page
+        router.push("/");
         return;
       }
 
