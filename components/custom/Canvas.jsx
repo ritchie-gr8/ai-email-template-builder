@@ -7,7 +7,7 @@ import {
   useScreenSize,
 } from "@/provider/Provider";
 import React, { useState } from "react";
-import ColumnLayout from '/components/layout-elements/ColumnLayout'
+import ColumnLayout from "/components/layout-elements/ColumnLayout";
 
 const Canvas = () => {
   const { screenSize, setScreenSize } = useScreenSize();
@@ -17,8 +17,15 @@ const Canvas = () => {
 
   const onDragOverHandler = (e) => {
     e.preventDefault();
+    if ("dragElement" in dragElementLayout) return;
+
     setIsDragOver(true);
     console.log("Over...");
+  };
+
+  const onDragLeaveHandler = () => {
+    setIsDragOver(false);
+    console.log("Left...");
   };
 
   const onDropHandler = () => {
@@ -32,8 +39,8 @@ const Canvas = () => {
   };
 
   const getLayoutComponent = (layout) => {
-    if (layout?.type === 'column') {
-      return <ColumnLayout layout={layout} />
+    if (layout?.type === "column") {
+      return <ColumnLayout layout={layout} />;
     }
   };
 
@@ -43,10 +50,11 @@ const Canvas = () => {
         className={cn(
           `bg-white p-6 w-full`,
           screenSize === "desktop" ? "max-w-2xl" : "max-w-md",
-          isDragOver && "bg-purple-200 p-4"
+          isDragOver && "bg-purple-200"
         )}
         onDragOver={onDragOverHandler}
         onDrop={() => onDropHandler()}
+        onDragLeave={onDragLeaveHandler}
       >
         {emailTemplate?.length > 0 ? (
           emailTemplate?.map((layout, idx) => (

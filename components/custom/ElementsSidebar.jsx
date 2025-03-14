@@ -10,14 +10,21 @@ const ElementsSidebar = () => {
   const { dragElementLayout, setDragElementLayout } = useDragElementLayout();
 
   const onDragLayoutStart = (layout) => {
-    console.log(layout);
     setDragElementLayout({
       dragLayout: {
         ...layout,
         id: Date.now(),
       },
     });
-    console.log(dragElementLayout)
+  };
+
+  const onDragElementStart = (element) => {
+    setDragElementLayout({
+      dragElement: {
+        ...element,
+        id: Date.now(),
+      },
+    });
   };
 
   return (
@@ -37,8 +44,14 @@ const ElementsSidebar = () => {
 
       <h2 className="font-bold text-lg mt-3">Elements</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
-        {ELEMENTS.map((layout, idx) => (
-          <ElementLayoutCard layout={layout} key={idx} />
+        {ELEMENTS.map((element, idx) => (
+          <div
+            key={idx}
+            draggable
+            onDragStart={() => onDragElementStart(element)}
+          >
+            <ElementLayoutCard layout={element} key={idx} />
+          </div>
         ))}
       </div>
     </div>

@@ -43,9 +43,9 @@ export const ELEMENTS = [
     icon: TextSelectionIcon,
     type: "Text",
     label: "Text",
-    textarea: "Sample Text",
+    content: "Sample Text",
     style: {
-      backgroundColor: "#fff",
+      backgroundColor: "",
       color: "#000000",
       padding: "10px",
       textAlign: "center",
@@ -92,7 +92,7 @@ export const ELEMENTS = [
       backgroundColor: "#ffffff",
       padding: "10px",
       height: "30%",
-      width: "30%",
+      width: "100%",
     },
     outerStyle: {
       display: "flex",

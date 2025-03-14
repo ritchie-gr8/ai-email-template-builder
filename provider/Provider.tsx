@@ -33,8 +33,20 @@ const Provider = ({ children }: Props) => {
       if (user.email && user._id) {
         setUserDetail(user);
       }
+
+      const emailTemplate = localStorage.getItem("emailTemplate");
+      if (emailTemplate) {
+        const emailTemplateStore = JSON.parse(emailTemplate);
+        setEmailTemplate(emailTemplateStore ?? []);
+      }
     }
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      localStorage.setItem("emailTemplate", JSON.stringify(emailTemplate));
+    }
+  }, [emailTemplate]);
 
   return (
     <ConvexProvider client={convex}>
