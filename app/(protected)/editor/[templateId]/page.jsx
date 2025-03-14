@@ -12,7 +12,7 @@ const EditorPage = () => {
       <div className="grid grid-cols-5">
         <ElementsSidebar />
 
-        <div className="col-span-3 bg-secondary">
+        <div className="col-span-3 bg-gray-200">
           <Canvas />
         </div>
 

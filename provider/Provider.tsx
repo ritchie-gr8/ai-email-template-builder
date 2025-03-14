@@ -5,6 +5,8 @@ import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { UserDetailContext } from "../context/UserDetailContext";
 import { ScreenSizeContext } from "../context/ScreenSizeContext";
+import { DragDropLayoutContext } from "../context/DragDropLayoutContext";
+import { EmailTemplateContext } from "../context/EmailTemplateContext";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -15,6 +17,8 @@ const Provider = ({ children }: Props) => {
   const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
   const [userDetail, setUserDetail] = useState();
   const [screenSize, setScreenSize] = useState<"desktop" | "mobile">("desktop");
+  const [dragElementLayout, setDragElementLayout] = useState();
+  const [emailTemplate, setEmailTemplate] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -37,7 +41,15 @@ const Provider = ({ children }: Props) => {
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
         <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
           <ScreenSizeContext.Provider value={{ screenSize, setScreenSize }}>
-            {children}
+            <DragDropLayoutContext.Provider
+              value={{ dragElementLayout, setDragElementLayout }}
+            >
+              <EmailTemplateContext.Provider
+                value={{ emailTemplate, setEmailTemplate }}
+              >
+                {children}
+              </EmailTemplateContext.Provider>
+            </DragDropLayoutContext.Provider>
           </ScreenSizeContext.Provider>
         </UserDetailContext.Provider>
       </GoogleOAuthProvider>
@@ -50,3 +62,7 @@ export default Provider;
 export const useUserDetail = () => useContext(UserDetailContext);
 
 export const useScreenSize = () => useContext(ScreenSizeContext);
+
+export const useDragElementLayout = () => useContext(DragDropLayoutContext);
+
+export const useEmailTemplate = () => useContext(EmailTemplateContext);
