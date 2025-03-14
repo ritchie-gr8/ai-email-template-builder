@@ -5,12 +5,14 @@ import { useState } from "react";
 import {
   useDragElementLayout,
   useEmailTemplate,
-} from "../../provider/Provider";
-import ButtonComponent from "../custom/element-components/ButtonComponent";
-import TextComponent from "../custom/element-components/TextComponent";
-import ImageComponent from "../custom/element-components/ImageComponent";
-import LogoComponent from "../custom/element-components/LogoComponent";
-import DividerComponent from "../custom/element-components/DividerComponent";
+} from "../../../provider/Provider";
+import ButtonComponent from "../element-components/ButtonComponent";
+import TextComponent from "../element-components/TextComponent";
+import ImageComponent from "../element-components/ImageComponent";
+import LogoComponent from "../element-components/LogoComponent";
+import DividerComponent from "../element-components/DividerComponent";
+import LogoHeaderComponent from "../element-components/LogoHeaderComponent";
+import SocialIconsComponent from "../element-components/SocialIconsComponent";
 
 const ColumnLayout = ({ layout }) => {
   const [dragOver, setDragOver] = useState();
@@ -22,14 +24,14 @@ const ColumnLayout = ({ layout }) => {
     setDragOver({
       index: idx,
       columnId: layout?.id,
-      isElement: 'dragElement' in dragElementLayout ?? false,
+      isElement: "dragElement" in dragElementLayout ?? false,
     });
   };
 
-  const onDragLeaveHandler = () => setDragOver(null)
+  const onDragLeaveHandler = () => setDragOver(null);
 
   const onDropHandler = () => {
-    if (!dragElementLayout?.dragElement) return
+    if (!dragElementLayout?.dragElement) return;
 
     const idx = dragOver.index;
     setEmailTemplate((prev) =>
@@ -44,6 +46,7 @@ const ColumnLayout = ({ layout }) => {
   };
 
   const getElementComponent = (element) => {
+    console.log('type', element?.type)
     switch (element?.type) {
       case "Button":
         return <ButtonComponent {...element} />;
@@ -55,8 +58,13 @@ const ColumnLayout = ({ layout }) => {
         return <LogoComponent {...element} />;
       case "Divider":
         return <DividerComponent {...element} />;
+      case "LogoHeader":
+        return <LogoHeaderComponent {...element} />;
+      case "SocialIcons":
+        return <SocialIconsComponent {...element} />;
     }
 
+    console.log('test!!!!!!!!!')
     return element?.type;
   };
 

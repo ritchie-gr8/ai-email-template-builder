@@ -7,7 +7,7 @@ import {
   useScreenSize,
 } from "@/provider/Provider";
 import React, { useState } from "react";
-import ColumnLayout from "/components/layout-elements/ColumnLayout";
+import ColumnLayout from "/components/custom/layout-elements/ColumnLayout";
 
 const Canvas = () => {
   const { screenSize, setScreenSize } = useScreenSize();
