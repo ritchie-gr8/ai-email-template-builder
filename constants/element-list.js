@@ -1,4 +1,10 @@
 import {
+  AArrowUp,
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
+  CaseLower,
+  CaseUpper,
   Columns2,
   Facebook,
   Frame,
@@ -31,6 +37,7 @@ export const ELEMENTS = [
       borderRadius: "0px",
       fontWeight: "normal",
       objectFit: "contain",
+      margin: '0px',
     },
     outerStyle: {
       display: "flex",
@@ -44,6 +51,7 @@ export const ELEMENTS = [
     type: "Text",
     label: "Text",
     content: "Sample Text",
+    textarea: "Sample Text",
     style: {
       backgroundColor: "",
       color: "#000000",
@@ -52,6 +60,7 @@ export const ELEMENTS = [
       fontSize: "22px",
       fontWeight: "normal",
       textTransform: "uppercase", //lowercase , capitilized
+      margin: '0px',
     },
     outerStyle: {
       backgroundColor: "#fff",
@@ -72,6 +81,7 @@ export const ELEMENTS = [
       width: "70%",
       margin: "0px",
       borderRadius: "0px",
+      margin: '0px',
     },
     outerStyle: {
       display: "flex",
@@ -93,6 +103,7 @@ export const ELEMENTS = [
       padding: "10px",
       height: "30%",
       width: "100%",
+      margin: '0px',
     },
     outerStyle: {
       display: "flex",
@@ -114,6 +125,7 @@ export const ELEMENTS = [
       padding: "10px",
       height: "40%",
       width: "40%",
+      margin: '0px',
     },
     outerStyle: {
       display: "flex",
@@ -132,6 +144,7 @@ export const ELEMENTS = [
       color: "#000000",
       padding: "10px",
       width: "100%",
+      margin: '0px',
     },
   },
   {
@@ -174,5 +187,35 @@ export const ELEMENTS = [
       display: "flex",
       gap: 15,
     },
+  },
+];
+
+export const TextAlignOptions = [
+  {
+    value: "left",
+    icon: AlignLeft,
+  },
+  {
+    value: "center",
+    icon: AlignCenter,
+  },
+  {
+    value: "right",
+    icon: AlignRight,
+  },
+];
+
+export const TextTransformOptions = [
+  {
+    value: "uppercase",
+    icon: CaseUpper,
+  },
+  {
+    value: "lowercase",
+    icon: CaseLower,
+  },
+  {
+    value: "capitalize",
+    icon: AArrowUp,
   },
 ];

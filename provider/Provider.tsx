@@ -7,6 +7,7 @@ import { UserDetailContext } from "../context/UserDetailContext";
 import { ScreenSizeContext } from "../context/ScreenSizeContext";
 import { DragDropLayoutContext } from "../context/DragDropLayoutContext";
 import { EmailTemplateContext } from "../context/EmailTemplateContext";
+import { SelectedElementContext } from "../context/SelectedElementContext";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -16,9 +17,14 @@ type Props = {
 const Provider = ({ children }: Props) => {
   const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
   const [userDetail, setUserDetail] = useState();
-  const [screenSize, setScreenSize] = useState<"desktop" | "mobile">("desktop");
+  const [screenSize, setScreenSize] = useState("desktop");
   const [dragElementLayout, setDragElementLayout] = useState();
-  const [emailTemplate, setEmailTemplate] = useState([]);
+  const [emailTemplate, setEmailTemplate] = useState< any []>([]);
+  const [selectedElement, setSelectedElement] = useState<{
+    index: number;
+    layout: any;
+    style: any;
+  } | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -48,6 +54,23 @@ const Provider = ({ children }: Props) => {
     }
   }, [emailTemplate]);
 
+  useEffect(() => {
+    if (selectedElement) {
+      const updatedEmailTemplate: any [] = [];
+      console.log("effect selected element:", selectedElement);
+      console.log("effect email template:", emailTemplate);
+      emailTemplate.forEach((item, idx) => {
+        if (item.id === selectedElement?.layout.id) {
+          updatedEmailTemplate.push(selectedElement?.layout);
+        } else {
+          updatedEmailTemplate.push(item);
+        }
+
+        setEmailTemplate(updatedEmailTemplate);
+      });
+    }
+  }, [selectedElement]);
+
   return (
     <ConvexProvider client={convex}>
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
@@ -59,7 +82,11 @@ const Provider = ({ children }: Props) => {
               <EmailTemplateContext.Provider
                 value={{ emailTemplate, setEmailTemplate }}
               >
-                {children}
+                <SelectedElementContext.Provider
+                  value={{ selectedElement, setSelectedElement }}
+                >
+                  {children}
+                </SelectedElementContext.Provider>
               </EmailTemplateContext.Provider>
             </DragDropLayoutContext.Provider>
           </ScreenSizeContext.Provider>
@@ -78,3 +105,5 @@ export const useScreenSize = () => useContext(ScreenSizeContext);
 export const useDragElementLayout = () => useContext(DragDropLayoutContext);
 
 export const useEmailTemplate = () => useContext(EmailTemplateContext);
+
+export const useSelectedElement = () => useContext(SelectedElementContext);

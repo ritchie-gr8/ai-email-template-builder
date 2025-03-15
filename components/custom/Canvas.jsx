@@ -17,7 +17,7 @@ const Canvas = () => {
 
   const onDragOverHandler = (e) => {
     e.preventDefault();
-    if ("dragElement" in dragElementLayout) return;
+    if (dragElementLayout && "dragElement" in dragElementLayout) return;
 
     setIsDragOver(true);
     console.log("Over...");
