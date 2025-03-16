@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 
 const SliderField = ({ label, value, onHandleStyleChange, type = "px" }) => {
-  const getFormattedValue = (value) => value.replace(type, "");
+  const getFormattedValue = (value) => value?.replace(type, "");
 
   console.log("value from slider", value);
 

@@ -1,7 +1,6 @@
 "use client";
 
 import EmailTemplateList from "@/components/custom/EmailTemplateList";
-import Header from "@/components/custom/Header";
 import { Button } from "@/components/ui/button";
 import { useUserDetail } from "@/provider/Provider";
 import { Plus } from "lucide-react";
@@ -12,9 +11,7 @@ const DashboardPage = () => {
 
   return (
     <>
-      <Header />
-
-      <div className="p-4 sm:p-10 md:px-28 lg:px-40 xl:px-56 mt-16">
+      <div className="p-4 sm:px-10 md:px-28 lg:px-44 xl:px-56 mt-16">
         {/* Top Section */}
         <div className="flex justify-between items-center">
           <h2 className="font-bold text-3xl">Hello, {userDetail?.name}</h2>

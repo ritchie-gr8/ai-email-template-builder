@@ -8,7 +8,7 @@ const InputStyleField = ({
   onHandleStyleChange,
   type = "px",
 }) => {
-  const getFormattedValue = (value) => value.replace(type, "");
+  const getFormattedValue = (value) => value?.replace(type, "");
 
   return (
     <div>
