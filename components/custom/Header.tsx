@@ -13,7 +13,9 @@ const Header = () => {
 
   return (
     <header className="flex justify-between items-center py-4 px-4 sm:px-10 md:px-28 lg:px-44 xl:px-56 shadow-md">
-      <Image src={"/logo.svg"} alt="logo" width={180} height={140} />
+      <Link href={"/dashboard"} className="cursor-pointer">
+        <Image src={"/logo.svg"} alt="logo" width={180} height={140} />
+      </Link>
 
       {userDetail?.email ? (
         <div className="flex w-full justify-end items-center sm:justify-center sm:w-fit space-x-4">

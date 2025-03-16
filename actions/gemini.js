@@ -2,6 +2,9 @@
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { EMAIL_PROMPT } from "@/constants/prompt";
+import { api } from "@/convex/_generated/api";
+import { fetchMutation } from "convex/nextjs";
+import { v4 as uuidv4 } from "uuid";
 
 const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
@@ -18,11 +21,7 @@ const generationConfig = {
   responseMimeType: "application/json",
 };
 
-export const generateEmailTemplateWithAI = async (
-  userInput,
-  userEmail,
-  templateId
-) => {
+export const generateEmailTemplateWithAI = async (userInput, userEmail) => {
   const finalPrompt = EMAIL_PROMPT + ` ${userInput}`;
 
   try {
@@ -37,7 +36,16 @@ export const generateEmailTemplateWithAI = async (
     if (responseText) {
       try {
         const parsedResponse = JSON.parse(responseText);
-        return { status: 200, data: parsedResponse };
+        const data = {
+          templateId: uuidv4(),
+          templateJson: parsedResponse,
+          email: userEmail,
+          description: userInput,
+        };
+        const res = await fetchMutation(api.emailTemplate.saveEmailTemplate, data);
+
+        console.log(res);
+        return { status: 200, data: data };
       } catch (error) {
         console.error("Invalid JSON from Gemini", error);
         return { status: 500, error: "Invalid JSON from AI" };

@@ -1,18 +1,43 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
-import { Code, Monitor, Smartphone } from "lucide-react";
-import { useScreenSize, useSelectedElement } from "@/provider/Provider";
+import { Code, Loader2, Monitor, Smartphone } from "lucide-react";
+import {
+  useEmailTemplate,
+  useScreenSize,
+  useSelectedElement,
+} from "@/provider/Provider";
+import { useParams } from "next/navigation";
+import { updateTemplate } from "@/actions/convex";
+import { toast } from "sonner";
 
 const EditorHeader = ({ viewHTMLCode }) => {
   const { screenSize, setScreenSize } = useScreenSize();
   const { selectedElement, setSelectedElement } = useSelectedElement();
+  const { emailTemplate } = useEmailTemplate();
+  const { templateId } = useParams();
+  const [loading, setLoading] = useState(false);
 
   const handleOpenViewHTMLDialog = () => {
     setSelectedElement(null);
     viewHTMLCode(true);
+  };
+
+  const handleSaveTemplate = async () => {
+    setLoading(true);
+    const res = await updateTemplate(templateId, emailTemplate);
+    if (res.status !== 200 || !res.data) {
+      toast.error("Error", {
+        description: "Failed to save template. please try again.",
+      });
+    }
+
+    toast.success("Success", {
+      description: "Template updated successfully.",
+    });
+    setLoading(false);
   };
 
   return (
@@ -45,7 +70,9 @@ const EditorHeader = ({ viewHTMLCode }) => {
           <Code />
         </Button>
         <Button variant={"outline"}>Send Test Email</Button>
-        <Button>Save Template</Button>
+        <Button onClick={handleSaveTemplate} disabled={loading}>
+          Save Template {loading && <Loader2 className="animate-spin" />}
+        </Button>
       </div>
     </div>
   );
