@@ -74,3 +74,17 @@ export const updateTemplateDesign = mutation({
     }
   },
 });
+
+export const getAllUserTemplates = query({
+  args: {
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const result = await ctx.db
+      .query("emailTemplates")
+      .filter((q) => q.eq(q.field("email"), args.email))
+      .collect();
+
+    return result;
+  },
+});

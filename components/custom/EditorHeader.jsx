@@ -12,6 +12,7 @@ import {
 import { useParams } from "next/navigation";
 import { updateTemplate } from "@/actions/convex";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const EditorHeader = ({ viewHTMLCode }) => {
   const { screenSize, setScreenSize } = useScreenSize();
@@ -42,7 +43,9 @@ const EditorHeader = ({ viewHTMLCode }) => {
 
   return (
     <div className="p-4 shadow-sm flex justify-between items-center">
-      <Image src={"/logo.svg"} width={180} height={140} alt="logo" />
+      <Link href={"/dashboard"} className="cursor-pointer">
+        <Image src={"/logo.svg"} alt="logo" width={180} height={140} />
+      </Link>
 
       <div className="flex gap-3">
         <Button
