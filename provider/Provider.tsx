@@ -60,7 +60,7 @@ const Provider = ({ children }: Props) => {
       console.log("effect selected element:", selectedElement);
       console.log("effect email template:", emailTemplate);
       emailTemplate.forEach((item, idx) => {
-        if (item.id === selectedElement?.layout.id) {
+        if (item?.id === selectedElement?.layout.id) {
           updatedEmailTemplate.push(selectedElement?.layout);
         } else {
           updatedEmailTemplate.push(item);

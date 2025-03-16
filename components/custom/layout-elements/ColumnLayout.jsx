@@ -14,7 +14,7 @@ import LogoComponent from "../element-components/LogoComponent";
 import DividerComponent from "../element-components/DividerComponent";
 import LogoHeaderComponent from "../element-components/LogoHeaderComponent";
 import SocialIconsComponent from "../element-components/SocialIconsComponent";
-import { Trash } from "lucide-react";
+import { ArrowDown, ArrowUp, Trash } from "lucide-react";
 
 const ColumnLayout = ({ layout }) => {
   const [dragOver, setDragOver] = useState();
@@ -39,7 +39,7 @@ const ColumnLayout = ({ layout }) => {
     const idx = dragOver.index;
     setEmailTemplate((prev) =>
       prev.map((col) =>
-        col.id === layout?.id
+        col?.id === layout?.id
           ? { ...col, [idx]: dragElementLayout?.dragElement }
           : col
       )
@@ -47,12 +47,37 @@ const ColumnLayout = ({ layout }) => {
     console.log(emailTemplate);
     setDragOver(null);
   };
-  
+
   const deleteLayout = (layoutId) => {
-    const updatedEmailTemplate = emailTemplate?.filter(item => item.id !== layoutId)
-    setEmailTemplate(updatedEmailTemplate)
-    setSelectedElement(null)
-  }
+    const updatedEmailTemplate = emailTemplate?.filter(
+      (item) => item?.id !== layoutId
+    );
+    setEmailTemplate(updatedEmailTemplate);
+    setSelectedElement(null);
+  };
+
+  const moveColumn = (layoutId, direction) => {
+    const idx = emailTemplate.findIndex((item) => item?.id === layoutId);
+    if (idx === -1) return;
+
+    const shouldMoveUp = direction === "up";
+
+    setEmailTemplate((prev) => {
+      const updatedData = [...prev];
+
+      if (
+        (shouldMoveUp && idx === 0) ||
+        (!shouldMoveUp && idx === updatedData.length - 1)
+      )
+        return updatedData;
+
+      const temp = updatedData[idx];
+      updatedData[idx] = updatedData[shouldMoveUp ? idx - 1 : idx + 1];
+      updatedData[shouldMoveUp ? idx - 1 : idx + 1] = temp;
+
+      return updatedData;
+    });
+  };
 
   const getElementComponent = (element) => {
     switch (element?.type) {
@@ -104,12 +129,30 @@ const ColumnLayout = ({ layout }) => {
           </div>
         ))}
         {selectedElement?.layout?.id === layout?.id && (
-          <div
-            className="absolute cursor-pointer -right-10 bg-destructive text-destructive-foreground 
-            p-2 rounded-full hover:scale-105 transition-all hover:shadow-md"
-            onClick={() => deleteLayout(layout?.id)}
-          >
-            <Trash size={15} />
+          <div className="absolute -right-10 flex flex-col gap-2">
+            <div
+              className="cursor-pointer bg-destructive text-destructive-foreground 
+              p-2 rounded-full hover:scale-105 transition-all hover:shadow-md"
+              onClick={() => deleteLayout(layout?.id)}
+            >
+              <Trash size={15} />
+            </div>
+
+            <div
+              className="cursor-pointer bg-popover text-popover-foreground
+              p-2 rounded-full hover:scale-105 transition-all hover:shadow-md"
+              onClick={() => moveColumn(layout?.id, "up")}
+            >
+              <ArrowUp size={15} />
+            </div>
+
+            <div
+              className="cursor-pointer bg-popover text-popover-foreground
+              p-2 rounded-full hover:scale-105 transition-all hover:shadow-md"
+              onClick={() => moveColumn(layout?.id, "down")}
+            >
+              <ArrowDown size={15} />
+            </div>
           </div>
         )}
       </div>
