@@ -9,7 +9,7 @@ import { api } from "@/convex/_generated/api";
 
 type Props = {
   btnStyle?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const SignInButton = ({ btnStyle, children }: Props) => {
