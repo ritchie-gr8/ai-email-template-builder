@@ -20,7 +20,9 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "noEmitOnError": false,
+    "noImplicitAny": false,
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "context/UserDetailContext.jsx", "components/custom/Setting.jsx", "components/custom/Canvas.jsx", "components/custom/EditorHeader.jsx", "components/custom/ElementsSidebar.jsx", "components/custom/ElementLayoutCard.jsx", "constants/layout.js", "provider/Provider.tsx",],
   "exclude": ["node_modules"]
