@@ -6,14 +6,18 @@ import {
   useEmailTemplate,
   useScreenSize,
 } from "@/provider/Provider";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ColumnLayout from "/components/custom/layout-elements/ColumnLayout";
+import ViewHTMLDialog from "/components/custom/ViewHTMLDialog";
 
-const Canvas = () => {
+const Canvas = ({ viewHTMLCode, closeDialog }) => {
+  const htmlRef = useRef();
+
   const { screenSize, setScreenSize } = useScreenSize();
   const { dragElementLayout, setDragElementLayout } = useDragElementLayout();
   const { emailTemplate, setEmailTemplate } = useEmailTemplate();
   const [isDragOver, setIsDragOver] = useState(false);
+  const [htmlCode, setHtmlCode] = useState();
 
   const onDragOverHandler = (e) => {
     e.preventDefault();
@@ -44,6 +48,18 @@ const Canvas = () => {
     }
   };
 
+  const getHTMLCode = () => {
+    if (htmlRef.current) {
+      const htmlContent = htmlRef.current.innerHTML;
+      console.log("test html", htmlContent);
+      setHtmlCode(htmlContent);
+    }
+  };
+
+  useEffect(() => {
+    viewHTMLCode && getHTMLCode();
+  }, [viewHTMLCode]);
+
   return (
     <div className="mt-20 flex justify-center">
       <div
@@ -55,6 +71,7 @@ const Canvas = () => {
         onDragOver={onDragOverHandler}
         onDrop={() => onDropHandler()}
         onDragLeave={onDragLeaveHandler}
+        ref={htmlRef}
       >
         {emailTemplate?.length > 0 ? (
           emailTemplate?.map((layout, idx) => (
@@ -64,6 +81,7 @@ const Canvas = () => {
           <h2 className="p-4 text-center">Add Layout Here</h2>
         )}
       </div>
+      <ViewHTMLDialog openDialog={viewHTMLCode} htmlCode={htmlCode}  closeDialog={closeDialog}/>
     </div>
   );
 };

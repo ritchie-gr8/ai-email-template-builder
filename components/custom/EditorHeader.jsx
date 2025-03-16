@@ -4,10 +4,16 @@ import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
 import { Code, Monitor, Smartphone } from "lucide-react";
-import { useScreenSize } from "@/provider/Provider";
+import { useScreenSize, useSelectedElement } from "@/provider/Provider";
 
-const EditorHeader = () => {
+const EditorHeader = ({ viewHTMLCode }) => {
   const { screenSize, setScreenSize } = useScreenSize();
+  const { selectedElement, setSelectedElement } = useSelectedElement();
+
+  const handleOpenViewHTMLDialog = () => {
+    setSelectedElement(null);
+    viewHTMLCode(true);
+  };
 
   return (
     <div className="p-4 shadow-sm flex justify-between items-center">
@@ -34,6 +40,7 @@ const EditorHeader = () => {
         <Button
           variant={"ghost"}
           className="hover:text-primary hover:bg-primary-foreground/80"
+          onClick={() => handleOpenViewHTMLDialog()}
         >
           <Code />
         </Button>
