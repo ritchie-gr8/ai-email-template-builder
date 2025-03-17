@@ -24,19 +24,16 @@ const Canvas = ({ viewHTMLCode, closeDialog }) => {
     if (dragElementLayout && "dragElement" in dragElementLayout) return;
 
     setIsDragOver(true);
-    console.log("Over...");
   };
 
   const onDragLeaveHandler = () => {
     setIsDragOver(false);
-    console.log("Left...");
   };
 
   const onDropHandler = () => {
     setIsDragOver(false);
     if (dragElementLayout?.dragLayout) {
       setEmailTemplate((prev) => {
-        console.log("prev", prev);
         return [...prev, dragElementLayout?.dragLayout];
       });
     }
@@ -51,7 +48,6 @@ const Canvas = ({ viewHTMLCode, closeDialog }) => {
   const getHTMLCode = () => {
     if (htmlRef.current) {
       const htmlContent = htmlRef.current.innerHTML;
-      console.log("test html", htmlContent);
       setHtmlCode(htmlContent);
     }
   };
@@ -61,7 +57,7 @@ const Canvas = ({ viewHTMLCode, closeDialog }) => {
   }, [viewHTMLCode]);
 
   return (
-    <div className="mt-20 flex justify-center">
+    <div className="relative mt-20 flex justify-center">
       <div
         className={cn(
           `bg-white p-6 w-full`,
@@ -81,7 +77,11 @@ const Canvas = ({ viewHTMLCode, closeDialog }) => {
           <h2 className="p-4 text-center">Add Layout Here</h2>
         )}
       </div>
-      <ViewHTMLDialog openDialog={viewHTMLCode} htmlCode={htmlCode}  closeDialog={closeDialog}/>
+      <ViewHTMLDialog
+        openDialog={viewHTMLCode}
+        htmlCode={htmlCode}
+        closeDialog={closeDialog}
+      />
     </div>
   );
 };

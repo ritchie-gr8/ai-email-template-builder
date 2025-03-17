@@ -57,8 +57,6 @@ const Provider = ({ children }: Props) => {
   useEffect(() => {
     if (selectedElement) {
       const updatedEmailTemplate: any [] = [];
-      console.log("effect selected element:", selectedElement);
-      console.log("effect email template:", emailTemplate);
       emailTemplate.forEach((item, idx) => {
         if (item?.id === selectedElement?.layout.id) {
           updatedEmailTemplate.push(selectedElement?.layout);

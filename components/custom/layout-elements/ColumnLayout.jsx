@@ -36,6 +36,8 @@ const ColumnLayout = ({ layout }) => {
   const onDropHandler = () => {
     if (!dragElementLayout?.dragElement) return;
 
+    delete dragElementLayout?.dragElement.icon
+
     const idx = dragOver.index;
     setEmailTemplate((prev) =>
       prev.map((col) =>
@@ -44,7 +46,6 @@ const ColumnLayout = ({ layout }) => {
           : col
       )
     );
-    console.log(emailTemplate);
     setDragOver(null);
   };
 

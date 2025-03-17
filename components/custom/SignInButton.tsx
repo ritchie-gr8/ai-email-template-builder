@@ -6,6 +6,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 type Props = {
   btnStyle?: string;
@@ -14,10 +15,10 @@ type Props = {
 
 const SignInButton = ({ btnStyle, children }: Props) => {
   const createUser = useMutation(api.users.createUser);
+  const router = useRouter()
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
       const userInfo = await axios.get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         { headers: { Authorization: "Bearer " + tokenResponse?.access_token } }
@@ -38,6 +39,8 @@ const SignInButton = ({ btnStyle, children }: Props) => {
       if (typeof window !== undefined) {
         localStorage.setItem("userDetail", JSON.stringify(userDetail));
       }
+
+      router.push('/dashboard')
     },
     onError: (errorResponse) => console.log(errorResponse),
   });

@@ -7,6 +7,8 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useUserDetail } from "@/provider/Provider";
 import { getTemplateList } from "@/actions/convex";
+import { toast } from "sonner";
+import SkeletonTemplateList from "@/components/custom/SkeletonTemplateList";
 
 const EmailTemplateList = () => {
   const [templates, setTemplates] = useState<
@@ -17,26 +19,36 @@ const EmailTemplateList = () => {
       templateJson: any;
     }[]
   >([]);
+  const [loading, setLoading] = useState(false);
   const { userDetail } = useUserDetail();
 
   const getTemplates = async (email: string) => {
-    const res = await getTemplateList(email);
+    setLoading(true);
+    try {
+      const res = await getTemplateList(email);
 
-    if (res.status === 200 || res.data) {
-      console.log(res.data, "test data list");
-      setTemplates(res.data as any);
+      if (res.status === 200 || res.data) {
+        setTemplates(res.data as any);
+      }
+    } catch (error) {
+      toast.error("Error", {
+        description: "failed to fetch template list. please try again",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     userDetail?.email && getTemplates(userDetail?.email);
-    console.log(templates);
   }, [userDetail]);
 
   return (
     <div>
       <h2 className="font-bold text-xl text-primary mt-6">Workspace</h2>
-      {templates.length === 0 ? (
+      {loading ? (
+        <SkeletonTemplateList />
+      ) : templates.length === 0 ? (
         <div className="flex flex-col items-center justify-center mt-7">
           <Image src={"/250.svg"} alt="email" width={250} height={250} />
 
@@ -48,7 +60,7 @@ const EmailTemplateList = () => {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-5">
           {templates?.map((template, idx) => (
             <div
               key={idx}
