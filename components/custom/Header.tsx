@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import { LayoutDashboard, LogIn } from "lucide-react";
 import { useUserDetail } from "@/provider/Provider";
 import SignInButton from "./SignInButton";
 import Link from "next/link";
+import UserAvatarDropdown from '@/components/custom/UserAvatarDropdown'
 
 const Header = () => {
   const { userDetail, setUserDetail } = useUserDetail();
@@ -25,13 +26,8 @@ const Header = () => {
               <span className="hidden sm:inline">Dashboard</span>
             </Button>
           </Link>
-          <Image
-            src={userDetail.picture}
-            alt="profile"
-            width={35}
-            height={35}
-            className="rounded-full"
-          />
+
+          <UserAvatarDropdown userDetail={userDetail} />
         </div>
       ) : (
         <div className="flex items-center">

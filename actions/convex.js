@@ -82,3 +82,17 @@ export const getTemplate = async (email, templateId) => {
     return { status: 500, error: error.message };
   }
 };
+
+export const updateUserDetail = async (id, email, newName) => {
+  const res = await fetchMutation(api.users.updateUserDetail, {
+    email: email,
+    id: id,
+    name: newName,
+  });
+
+  if (res.status === 200 && res.data) {
+    return { status: 200, data: res.data };
+  } else {
+    return { status: 500, error: "Update returned no data" };
+  }
+};
