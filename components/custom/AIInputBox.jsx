@@ -9,11 +9,10 @@ import { Loader2 } from "lucide-react";
 import { useUserDetail } from "@/provider/Provider";
 import { useRouter } from "next/navigation";
 
-const AIInputBox = () => {
+const AIInputBox = ({ loading, setLoading }) => {
   const [userInput, setUserInput] = useState("");
-  const [loading, setLoading] = useState(false);
   const { userDetail } = useUserDetail();
-  const router = useRouter()
+  const router = useRouter();
 
   const handleGenerate = async () => {
     if (userInput.trim() === "") {
@@ -32,11 +31,10 @@ const AIInputBox = () => {
       if (res.status !== 200 || !res.data)
         throw new Error("Unable to generate email template");
 
-      console.log('test generate', res)
       toast.success("Success", {
         description: "Email template generated successfully.",
       });
-      router.push(`/editor/${res.data.templateId}`)
+      router.push(`/editor/${res.data.templateId}`);
     } catch (error) {
       toast.error("Error", {
         description: "Failed to generate an email template. Please try again.",

@@ -3,7 +3,6 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Label } from "@/components/ui/label";
 
 const ToggleGroupField = ({ label, value, options, onHandleStyleChange }) => {
-  console.log('toggle value', label, value)
   return (
     <div>
       <Label>{label}</Label>

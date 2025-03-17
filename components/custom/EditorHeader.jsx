@@ -8,15 +8,17 @@ import {
   useEmailTemplate,
   useScreenSize,
   useSelectedElement,
+  useUserDetail,
 } from "@/provider/Provider";
 import { useParams } from "next/navigation";
-import { updateTemplate } from "@/actions/convex";
+import { saveTemplate } from "@/actions/convex";
 import { toast } from "sonner";
 import Link from "next/link";
 
 const EditorHeader = ({ viewHTMLCode }) => {
   const { screenSize, setScreenSize } = useScreenSize();
   const { selectedElement, setSelectedElement } = useSelectedElement();
+  const { userDetail } = useUserDetail();
   const { emailTemplate } = useEmailTemplate();
   const { templateId } = useParams();
   const [loading, setLoading] = useState(false);
@@ -28,17 +30,20 @@ const EditorHeader = ({ viewHTMLCode }) => {
 
   const handleSaveTemplate = async () => {
     setLoading(true);
-    const res = await updateTemplate(templateId, emailTemplate);
-    if (res.status !== 200 || !res.data) {
-      toast.error("Error", {
-        description: "Failed to save template. please try again.",
-      });
-    }
 
-    toast.success("Success", {
-      description: "Template updated successfully.",
-    });
-    setLoading(false);
+    try {
+      const res = await saveTemplate(userDetail, templateId, emailTemplate);
+
+      if (res.status !== 200 || !res.data) {
+        throw new Error('Failed to save ')
+      } 
+        toast.success("Template saved successfully");
+    } catch (error) {
+      toast.error(error.data?.message || "Failed to save template");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

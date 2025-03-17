@@ -9,6 +9,7 @@ import { DragDropLayoutContext } from "../context/DragDropLayoutContext";
 import { EmailTemplateContext } from "../context/EmailTemplateContext";
 import { SelectedElementContext } from "../context/SelectedElementContext";
 import { useRouter } from "next/navigation";
+import LoadingPage from "@/components/custom/LoadingPage";
 
 type Props = {
   children: React.ReactNode;
@@ -16,10 +17,11 @@ type Props = {
 
 const Provider = ({ children }: Props) => {
   const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+  const [loading, setLoading] = useState(true);
   const [userDetail, setUserDetail] = useState();
   const [screenSize, setScreenSize] = useState("desktop");
   const [dragElementLayout, setDragElementLayout] = useState();
-  const [emailTemplate, setEmailTemplate] = useState< any []>([]);
+  const [emailTemplate, setEmailTemplate] = useState<any[]>([]);
   const [selectedElement, setSelectedElement] = useState<{
     index: number;
     layout: any;
@@ -28,9 +30,11 @@ const Provider = ({ children }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
+    setLoading(true);
     if (typeof window !== undefined) {
       const userDetail = localStorage.getItem("userDetail");
       if (!userDetail) {
+        setLoading(false);
         router.push("/");
         return;
       }
@@ -46,6 +50,7 @@ const Provider = ({ children }: Props) => {
         setEmailTemplate(emailTemplateStore ?? []);
       }
     }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -56,9 +61,7 @@ const Provider = ({ children }: Props) => {
 
   useEffect(() => {
     if (selectedElement) {
-      const updatedEmailTemplate: any [] = [];
-      console.log("effect selected element:", selectedElement);
-      console.log("effect email template:", emailTemplate);
+      const updatedEmailTemplate: any[] = [];
       emailTemplate.forEach((item, idx) => {
         if (item?.id === selectedElement?.layout.id) {
           updatedEmailTemplate.push(selectedElement?.layout);
@@ -70,6 +73,10 @@ const Provider = ({ children }: Props) => {
       });
     }
   }, [selectedElement]);
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <ConvexProvider client={convex}>

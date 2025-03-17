@@ -22,7 +22,7 @@ const ViewHTMLDialog = ({ openDialog, htmlCode, closeDialog }) => {
   };
 
   return (
-    <Dialog className="w-fit" open={openDialog} onOpenChange={closeDialog}>
+    <Dialog className="w-fit" open={openDialog} onOpenChange={closeDialog} asChild>
       <DialogContent>
         <DialogHeader>
           <DialogTitle asChild>

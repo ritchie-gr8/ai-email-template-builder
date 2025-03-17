@@ -9,8 +9,10 @@ import { useParams } from "next/navigation";
 import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useEmailTemplate, useUserDetail } from "../../../../provider/Provider";
-import { Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 const EditorPage = () => {
   const [viewHTMLCode, setViewHTMLCode] = useState();
@@ -28,9 +30,10 @@ const EditorPage = () => {
       email: userDetail?.email,
     });
 
-    console.log('test res', result)
     if (result) {
       setEmailTemplate(result.templateJson);
+    } else {
+      setEmailTemplate([]);
     }
 
     setLoading(false);
@@ -65,10 +68,15 @@ const EditorPage = () => {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-5">
+        <div className="grid grid-cols-5 relative">
           <ElementsSidebar />
 
           <div className="col-span-3 bg-gray-200">
+            <Link className="absolute top-2 ml-4" href={"/dashboard"}>
+              <Button>
+                <ArrowLeft /> back to Dashboard
+              </Button>
+            </Link>
             <Canvas
               viewHTMLCode={viewHTMLCode}
               closeDialog={() => setViewHTMLCode(false)}
